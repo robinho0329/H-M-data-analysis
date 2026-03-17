@@ -1,0 +1,21 @@
+[server]
+# Maximum size (in MB) for file uploads
+maxUploadSize = 200
+# Headless mode required for Streamlit Community Cloud
+headless = true
+# Do not open a browser window automatically
+enableCORS = false
+enableXsrfProtection = true
+
+[browser]
+# Opt out of anonymous usage statistics
+gatherUsageStats = false
+
+[theme]
+# H&M brand colours
+# Primary brand red and clean white background
+primaryColor = "#E50010"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F5F5F5"
+textColor = "#1A1A1A"
+font = "sans serif"

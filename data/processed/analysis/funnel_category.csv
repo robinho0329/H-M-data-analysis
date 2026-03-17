@@ -1,0 +1,4 @@
+diversity,customer_count,avg_product_groups,avg_product_types,total_revenue,avg_customer_value,percentage
+Low,377816,1.28,1.42,16163.72,0.04,82.45
+Medium,79193,3.29,4.48,12300.91,0.16,17.28
+High,1226,6.06,11.81,663.89,0.54,0.27

@@ -1,0 +1,5 @@
+lifecycle,customer_count,total_revenue,avg_customer_value,total_purchases,avg_purchases,percentage,conversion_rate
+New,285052,9700.47,0.03,1.26,359609,62.21,0.6221
+Active,35917,4895.47,0.14,4.84,173743,7.84,0.0784
+Dormant,31196,4154.93,0.13,4.48,139811,6.81,0.0681
+Inactive,106070,10377.65,0.1,3.54,375412,23.15,0.2315

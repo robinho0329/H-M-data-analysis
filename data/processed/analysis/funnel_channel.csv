@@ -1,0 +1,3 @@
+channel,unique_customers,total_revenue,avg_order_value,avg_transaction_value,transaction_count
+Offline,203581,7284.19,0.02,0.02,319383
+Online,322659,21844.34,0.03,0.03,729192
