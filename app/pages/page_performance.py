@@ -12,12 +12,12 @@ def show():
     st.markdown("""
 <div style='margin-bottom:24px;'>
     <div style='font-size:11px; color:#767676; margin-bottom:12px; letter-spacing:0.3px;'>
-        Home / Analytics / <span style='color:#000000; font-weight:600;'>MODEL PERFORMANCE</span>
+        홈 / 분석 / <span style='color:#000000; font-weight:600;'>모델 성능</span>
     </div>
     <h1 style='font-family:Helvetica Neue,Helvetica,Arial,sans-serif;
                font-size:1.8rem; font-weight:700; color:#000000;
                margin:0 0 4px 0; letter-spacing:0.5px; text-transform:uppercase;'>
-        MODEL PERFORMANCE
+        모델 성능
     </h1>
     <div style='height:2px; background:#000000; width:40px; margin-top:12px;'></div>
 </div>

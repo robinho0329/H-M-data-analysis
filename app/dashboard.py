@@ -261,15 +261,15 @@ div#hm-promo {
     )
 
     pages = {
-        "FORECAST OVERVIEW": "overview",
-        "CUSTOMER SEGMENTS": "customer_segments",
-        "PRODUCT SEGMENTS": "product_segments",
-        "DETAILED ANALYSIS": "detailed_analysis",
-        "MODEL PERFORMANCE": "performance",
-        "DATA EXPLORATION": "eda",
-        "FUNNEL ANALYSIS": "funnel_analysis",
-        "COHORT ANALYSIS": "cohort_analysis",
-        "BUSINESS SUMMARY": "business_summary",
+        "비즈니스 요약": "business_summary",
+        "매출 예측": "overview",
+        "고객 분석": "customer_segments",
+        "상품 분석": "product_segments",
+        "상세 분석": "detailed_analysis",
+        "데이터 탐색": "eda",
+        "퍼널 분석": "funnel_analysis",
+        "코호트 분석": "cohort_analysis",
+        "모델 성능": "performance",
     }
 
     selected_page = st.sidebar.radio("", list(pages.keys()), label_visibility="collapsed")
@@ -293,39 +293,27 @@ div#hm-promo {
         unsafe_allow_html=True
     )
 
-    main_nav = {
-        "FORECAST OVERVIEW": "FORECAST",
-        "CUSTOMER SEGMENTS": "CUSTOMERS",
-        "PRODUCT SEGMENTS": "PRODUCTS",
-        "DETAILED ANALYSIS": "ANALYSIS",
-    }
+    nav_labels = ["예측", "고객", "상품", "분석"]
 
     nav_items_html = ""
-    for page_key, nav_label in main_nav.items():
-        is_sel = (page_key == selected_page)
+    for nav_label in nav_labels:
         nav_items_html += (
-            '<a style="display:inline-flex;align-items:center;height:100%;padding:0 18px;'
-            f'font-size:13px;font-weight:{"700" if is_sel else "500"};'
-            'letter-spacing:0.3px;text-transform:uppercase;'
-            'color:#000000;text-decoration:none;cursor:pointer;white-space:nowrap;'
-            f'border-bottom:{"2px solid #000000" if is_sel else "2px solid transparent"};'
-            f'box-sizing:border-box;">{nav_label}</a>'
+            '<span style="display:inline-flex;align-items:center;height:100%;padding:0 18px;'
+            'font-size:13px;font-weight:500;'
+            'letter-spacing:0.3px;'
+            'color:#000000;white-space:nowrap;'
+            'border-bottom:2px solid transparent;'
+            f'box-sizing:border-box;">{nav_label}</span>'
         )
 
     st.markdown(
         '<div style="background:#FFFFFF;border-bottom:1px solid #E8E8E8;padding:0;margin:0 -2rem;">'
-        '<div style="display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:60px;">'
+        '<div style="display:flex;align-items:center;padding:0 32px;height:60px;">'
         '<div style="display:flex;align-items:stretch;height:100%;">'
         '<div style="display:flex;align-items:center;margin-right:28px;flex-shrink:0;">'
         + _logo(26) +
         '</div>'
         f'<nav style="display:flex;align-items:stretch;height:100%;">{nav_items_html}</nav>'
-        '</div>'
-        '<div style="display:flex;align-items:center;gap:20px;flex-shrink:0;">'
-        '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1.5" style="cursor:pointer;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>'
-        '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1.5" style="cursor:pointer;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'
-        '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1.5" style="cursor:pointer;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'
-        '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1.5" style="cursor:pointer;"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>'
         '</div>'
         '</div>'
         '</div>',
@@ -335,32 +323,32 @@ div#hm-promo {
     st.markdown('<div style="height:20px;"></div>', unsafe_allow_html=True)
 
     # ── PAGE CONTENT ──
-    if selected_page == "FORECAST OVERVIEW":
+    if selected_page == "비즈니스 요약":
+        from pages.page_business_summary import show
+        show()
+    elif selected_page == "매출 예측":
         from pages.page_overview import show
         show()
-    elif selected_page == "CUSTOMER SEGMENTS":
+    elif selected_page == "고객 분석":
         from pages.page_customer_segments import show
         show()
-    elif selected_page == "PRODUCT SEGMENTS":
+    elif selected_page == "상품 분석":
         from pages.page_product_segments import show
         show()
-    elif selected_page == "DETAILED ANALYSIS":
+    elif selected_page == "상세 분석":
         from pages.page_detailed_analysis import show
         show()
-    elif selected_page == "MODEL PERFORMANCE":
-        from pages.page_performance import show
-        show()
-    elif selected_page == "DATA EXPLORATION":
+    elif selected_page == "데이터 탐색":
         from pages.page_eda import show
         show()
-    elif selected_page == "FUNNEL ANALYSIS":
+    elif selected_page == "퍼널 분석":
         from pages.page_funnel_analysis import show
         show()
-    elif selected_page == "COHORT ANALYSIS":
+    elif selected_page == "코호트 분석":
         from pages.page_cohort_analysis import show
         show()
-    elif selected_page == "BUSINESS SUMMARY":
-        from pages.page_business_summary import show
+    elif selected_page == "모델 성능":
+        from pages.page_performance import show
         show()
 
     # ── FOOTER ──
