@@ -4,7 +4,6 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
-import plotly.express as px
 from pathlib import Path
 import sys
 import numpy as np
@@ -21,14 +20,18 @@ def load_cohort_data():
     """코호트 분석 결과 로드"""
     results_dir = PROCESSED_DIR / "analysis"
 
-    data = {
-        'retention': pd.read_csv(results_dir / "cohort_retention.csv", index_col=0),
-        'revenue': pd.read_csv(results_dir / "cohort_revenue.csv", index_col=0),
-        'avg_spending': pd.read_csv(results_dir / "cohort_avg_spending.csv", index_col=0),
-        'age_group': pd.read_csv(results_dir / "cohort_age_group.csv"),
-        'club_status': pd.read_csv(results_dir / "cohort_club_status.csv"),
-        'newsletter': pd.read_csv(results_dir / "cohort_newsletter.csv")
-    }
+    try:
+        data = {
+            'retention': pd.read_csv(results_dir / "cohort_retention.csv", index_col=0),
+            'revenue': pd.read_csv(results_dir / "cohort_revenue.csv", index_col=0),
+            'avg_spending': pd.read_csv(results_dir / "cohort_avg_spending.csv", index_col=0),
+            'age_group': pd.read_csv(results_dir / "cohort_age_group.csv"),
+            'club_status': pd.read_csv(results_dir / "cohort_club_status.csv"),
+            'newsletter': pd.read_csv(results_dir / "cohort_newsletter.csv")
+        }
+    except FileNotFoundError:
+        st.warning("⚠️ 코호트 분석 데이터를 찾을 수 없습니다. 분석 파이프라인을 먼저 실행해주세요.")
+        return None
 
     return data
 
@@ -74,6 +77,8 @@ def show():
 
     # 데이터 로드
     cohort_data = load_cohort_data()
+    if cohort_data is None:
+        return
 
     # 탭 구성
     tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([

@@ -5,7 +5,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
-import plotly.express as px
 import sys
 from pathlib import Path
 
@@ -22,16 +21,20 @@ def load_summary_data():
     results_dir = PROCESSED_DIR / "analysis"
 
     merged = load_raw_data()
-    funnel = {
-        'lifecycle': pd.read_csv(results_dir / "funnel_lifecycle.csv"),
-        'frequency': pd.read_csv(results_dir / "funnel_frequency.csv"),
-        'channel': pd.read_csv(results_dir / "funnel_channel.csv"),
-    }
-    cohort = {
-        'retention': pd.read_csv(results_dir / "cohort_retention.csv", index_col=0),
-        'club_status': pd.read_csv(results_dir / "cohort_club_status.csv"),
-        'newsletter': pd.read_csv(results_dir / "cohort_newsletter.csv"),
-    }
+    try:
+        funnel = {
+            'lifecycle': pd.read_csv(results_dir / "funnel_lifecycle.csv"),
+            'frequency': pd.read_csv(results_dir / "funnel_frequency.csv"),
+            'channel': pd.read_csv(results_dir / "funnel_channel.csv"),
+        }
+        cohort = {
+            'retention': pd.read_csv(results_dir / "cohort_retention.csv", index_col=0),
+            'club_status': pd.read_csv(results_dir / "cohort_club_status.csv"),
+            'newsletter': pd.read_csv(results_dir / "cohort_newsletter.csv"),
+        }
+    except FileNotFoundError:
+        st.warning("⚠️ 비즈니스 요약 데이터를 찾을 수 없습니다. 분석 파이프라인을 먼저 실행해주세요.")
+        return None, None, None
     return merged, funnel, cohort
 
 
@@ -51,7 +54,7 @@ def show():
 """, unsafe_allow_html=True)
 
     merged, funnel, cohort = load_summary_data()
-    if merged is None:
+    if merged is None or funnel is None or cohort is None:
         st.error("데이터를 로드할 수 없습니다.")
         return
 

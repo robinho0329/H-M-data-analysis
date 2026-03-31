@@ -5,7 +5,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
-import plotly.express as px
 import logging
 import sys
 from pathlib import Path
@@ -115,6 +114,13 @@ def show():
         )
 
     st.markdown("---")
+
+    # 날짜 범위 유효성 검사
+    if isinstance(date_range, tuple) and len(date_range) == 2:
+        pass  # 정상
+    else:
+        st.info("날짜 범위를 선택해주세요.")
+        return
 
     # 선택된 세그먼트의 시계열 데이터 생성
     segments_data = {}

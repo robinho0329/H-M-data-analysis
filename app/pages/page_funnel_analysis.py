@@ -4,7 +4,6 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
-import plotly.express as px
 from pathlib import Path
 import sys
 
@@ -19,12 +18,16 @@ def load_funnel_data():
     """퍼널 분석 결과 로드"""
     results_dir = PROCESSED_DIR / "analysis"
 
-    data = {
-        'lifecycle': pd.read_csv(results_dir / "funnel_lifecycle.csv"),
-        'frequency': pd.read_csv(results_dir / "funnel_frequency.csv"),
-        'category': pd.read_csv(results_dir / "funnel_category.csv"),
-        'channel': pd.read_csv(results_dir / "funnel_channel.csv")
-    }
+    try:
+        data = {
+            'lifecycle': pd.read_csv(results_dir / "funnel_lifecycle.csv"),
+            'frequency': pd.read_csv(results_dir / "funnel_frequency.csv"),
+            'category': pd.read_csv(results_dir / "funnel_category.csv"),
+            'channel': pd.read_csv(results_dir / "funnel_channel.csv")
+        }
+    except FileNotFoundError:
+        st.warning("⚠️ 퍼널 분석 데이터를 찾을 수 없습니다. 분석 파이프라인을 먼저 실행해주세요.")
+        return None
 
     return data
 
@@ -66,6 +69,8 @@ def show():
 
     # 데이터 로드
     funnel_data = load_funnel_data()
+    if funnel_data is None:
+        return
 
     # 탭 구성
     tab1, tab2, tab3, tab4 = st.tabs([

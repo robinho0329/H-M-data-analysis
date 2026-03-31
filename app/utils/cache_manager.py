@@ -3,7 +3,6 @@
 """
 import streamlit as st
 import pandas as pd
-import numpy as np
 import logging
 from pathlib import Path
 import pickle
@@ -22,19 +21,6 @@ def load_processed_data(path: str) -> pd.DataFrame:
         return data
     except FileNotFoundError:
         logger.error(f"파일을 찾을 수 없습니다: {path}")
-        return None
-
-
-@st.cache_resource
-def load_lstm_model(path: str):
-    """LSTM 모델 로드 (캐시됨)"""
-    try:
-        from tensorflow import keras
-        model = keras.models.load_model(path)
-        logger.info(f"✓ 모델 로드: {path}")
-        return model
-    except Exception as e:
-        logger.error(f"모델 로드 실패: {str(e)}")
         return None
 
 

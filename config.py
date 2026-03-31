@@ -72,9 +72,9 @@ EVAL_METRICS = ["rmse", "mae", "mape", "r2"]
 
 # 시각화
 COLORS = {
-    "primary": "#1f77b4",
-    "secondary": "#ff7f0e",
+    "primary": "#E50010",
+    "secondary": "#222222",
     "success": "#2ca02c",
-    "danger": "#d62728",
-    "warning": "#ff9896",
+    "danger": "#E50010",
+    "warning": "#FF6B6B",
 }
