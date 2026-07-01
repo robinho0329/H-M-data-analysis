@@ -39,21 +39,33 @@ def load_normalizer(path: str):
 
 @st.cache_data(ttl=3600)
 def load_raw_data():
-    """원본 데이터 로드 (캐시됨)"""
+    """원본 데이터 로드 (캐시됨).
+
+    - 로컬: `Raw data/` 의 원본 CSV 3종(transactions·customer·articles)을 병합.
+    - 배포(클라우드): 원본 CSV는 대용량이라 gitignore → 커밋된
+      `data/processed/raw_sample.parquet`(고객 10% 대표표본)로 자동 폴백.
+    """
     try:
         from pathlib import Path
         project_dir = Path(__file__).parent.parent.parent
+        raw_dir = project_dir / "Raw data"
+        tx_path = raw_dir / "transactions_hm.csv"
 
-        transactions = pd.read_csv(project_dir / "Raw data" / "transactions_hm.csv")
-        customers = pd.read_csv(project_dir / "Raw data" / "customer_hm.csv")
-        articles = pd.read_csv(project_dir / "Raw data" / "articles_hm.csv")
+        if tx_path.exists():
+            transactions = pd.read_csv(tx_path)
+            customers = pd.read_csv(raw_dir / "customer_hm.csv")
+            articles = pd.read_csv(raw_dir / "articles_hm.csv")
+            merged = transactions.merge(customers, on='customer_id', how='left').merge(
+                articles, on='article_id', how='left'
+            )
+            logger.info("✓ 원본 CSV 병합 로드")
+        else:
+            # 클라우드 폴백: 커밋된 대표표본 사용
+            sample_path = project_dir / "data" / "processed" / "raw_sample.parquet"
+            merged = pd.read_parquet(sample_path)
+            logger.info("✓ 원본 CSV 미존재 → 대표표본(raw_sample.parquet) 사용")
 
-        # 데이터 병합
-        merged = transactions.merge(customers, on='customer_id', how='left').merge(
-            articles, on='article_id', how='left'
-        )
         merged['t_dat'] = pd.to_datetime(merged['t_dat'])
-
         logger.info(f"✓ 원본 데이터 로드 완료: {merged.shape}")
         return merged
     except Exception as e:
